@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Habilitation Candidats - 738-CSS Harricana</title>
+  <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn8j7-SXb8p7I8_p3zcqPpfI2plrpABlD4eGw73IYdUsjfdx4dsN2VrXGv4oc6ZTgtcyQ&usqp=CAU">
+  <style>
+    /* Styles globaux */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #ffffff;
+      color: #333;
+    }
+    /* En-tête : logo à gauche du titre */
+    .header-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-left div {
+      display: flex;
+      flex-direction: column;
+    }
+    .header-container h1 {
+      font-size: 40px;
+      margin: 0;
+    }
+    .header-logo {
+      max-height: 60px;
+      width: auto;
+    }
+    /* Bouton Guide */
+    #guideButton {
+      padding: 8px 12px;
+      font-size: 14px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    /* Colonnes plus fines :
+       - Colonne ANNÉE (4ème) réduite à 60px
+       - Colonne APP (9ème) fixée à 60px
+       - Colonne CODE_POSTAL (11ème) à 80px
+       - Colonne NUMERO_PERMIS (12ème) à 15 caractères (15ch)
+    */
+    th:nth-child(4), td:nth-child(4) {
+      width: 60px;
+    }
+    th:nth-child(9), td:nth-child(9) {
+      width: 60px;
+    }
+    th:nth-child(11), td:nth-child(11) {
+      width: 80px;
+    }
+    th:nth-child(12), td:nth-child(12) {
+      width: 15ch;
+    }
+    input, select {
+      width: 100%;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+    /* Réduction de la largeur du dropdown pour le client de messagerie */
+    select#emailClient {
+      width: auto;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 10px 5px 0 5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #4CAF50;
+      color: white;
+    }
+    button#resetButton {
+      background-color: #f44336;
+    }
+    #error-messages {
+      color: red;
+      margin-bottom: 10px;
+    }
+    /* Le formulaire occupe toute la largeur */
+    #data-form {
+      width: 100%;
+    }
+    /* Boutons alignés à droite */
+    .button-container {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <!-- En-tête -->
+  <div class="header-container">
+    <div class="header-left">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn8j7-SXb8p7I8_p3zcqPpfI2plrpABlD4eGw73IYdUsjfdx4dsN2VrXGv4oc6ZTgtcyQ&usqp=CAU" alt="Logo" class="header-logo">
+      <div>
+        <h1>Habilitation Candidats - 738-CSS Harricana</h1>
+        <button id="guideButton" type="button">Guide</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Zone d'affichage des erreurs -->
+  <div id="error-messages"></div>
+  
+  <form id="data-form">
+    <table>
+      <thead>
+        <tr>
+          <th>NOM</th>
+          <th>PRENOM</th>
+          <th>SEXE</th>
+          <th>ANNÉE</th>
+          <th>MOIS</th>
+          <th>JOUR</th>
+          <th>EMPLOI</th>
+          <th>ADRESSE</th>
+          <th>APP</th>
+          <th>VILLE</th>
+          <th>CODE_POSTAL</th>
+          <th>NUMERO_PERMIS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><input type="text" name="row0_nom"></td>
+  <td><input type="text" name="row0_prenom"></td>
+  <td>
+    <select name="row0_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row0_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row0_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row0_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row0_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row0_adresse"></td>
+  <td><input type="text" name="row0_app"></td>
+  <td><input type="text" name="row0_ville"></td>
+  <td><input type="text" name="row0_code_postal"></td>
+  <td><input type="text" name="row0_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row1_nom"></td>
+  <td><input type="text" name="row1_prenom"></td>
+  <td>
+    <select name="row1_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row1_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row1_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row1_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row1_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row1_adresse"></td>
+  <td><input type="text" name="row1_app"></td>
+  <td><input type="text" name="row1_ville"></td>
+  <td><input type="text" name="row1_code_postal"></td>
+  <td><input type="text" name="row1_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row2_nom"></td>
+  <td><input type="text" name="row2_prenom"></td>
+  <td>
+    <select name="row2_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row2_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row2_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row2_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row2_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row2_adresse"></td>
+  <td><input type="text" name="row2_app"></td>
+  <td><input type="text" name="row2_ville"></td>
+  <td><input type="text" name="row2_code_postal"></td>
+  <td><input type="text" name="row2_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row3_nom"></td>
+  <td><input type="text" name="row3_prenom"></td>
+  <td>
+    <select name="row3_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row3_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row3_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row3_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row3_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row3_adresse"></td>
+  <td><input type="text" name="row3_app"></td>
+  <td><input type="text" name="row3_ville"></td>
+  <td><input type="text" name="row3_code_postal"></td>
+  <td><input type="text" name="row3_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row4_nom"></td>
+  <td><input type="text" name="row4_prenom"></td>
+  <td>
+    <select name="row4_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row4_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row4_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row4_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row4_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row4_adresse"></td>
+  <td><input type="text" name="row4_app"></td>
+  <td><input type="text" name="row4_ville"></td>
+  <td><input type="text" name="row4_code_postal"></td>
+  <td><input type="text" name="row4_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row5_nom"></td>
+  <td><input type="text" name="row5_prenom"></td>
+  <td>
+    <select name="row5_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row5_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row5_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row5_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row5_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row5_adresse"></td>
+  <td><input type="text" name="row5_app"></td>
+  <td><input type="text" name="row5_ville"></td>
+  <td><input type="text" name="row5_code_postal"></td>
+  <td><input type="text" name="row5_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row6_nom"></td>
+  <td><input type="text" name="row6_prenom"></td>
+  <td>
+    <select name="row6_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row6_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row6_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row6_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row6_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row6_adresse"></td>
+  <td><input type="text" name="row6_app"></td>
+  <td><input type="text" name="row6_ville"></td>
+  <td><input type="text" name="row6_code_postal"></td>
+  <td><input type="text" name="row6_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row7_nom"></td>
+  <td><input type="text" name="row7_prenom"></td>
+  <td>
+    <select name="row7_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row7_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row7_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row7_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row7_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row7_adresse"></td>
+  <td><input type="text" name="row7_app"></td>
+  <td><input type="text" name="row7_ville"></td>
+  <td><input type="text" name="row7_code_postal"></td>
+  <td><input type="text" name="row7_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row8_nom"></td>
+  <td><input type="text" name="row8_prenom"></td>
+  <td>
+    <select name="row8_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row8_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row8_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row8_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row8_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row8_adresse"></td>
+  <td><input type="text" name="row8_app"></td>
+  <td><input type="text" name="row8_ville"></td>
+  <td><input type="text" name="row8_code_postal"></td>
+  <td><input type="text" name="row8_numero_permis"></td>
+</tr>
+
+<tr>
+  <td><input type="text" name="row9_nom"></td>
+  <td><input type="text" name="row9_prenom"></td>
+  <td>
+    <select name="row9_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row9_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row9_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row9_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row9_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row9_adresse"></td>
+  <td><input type="text" name="row9_app"></td>
+  <td><input type="text" name="row9_ville"></td>
+  <td><input type="text" name="row9_code_postal"></td>
+  <td><input type="text" name="row9_numero_permis"></td>
+</tr>
+
+
+      </tbody>
+    </table>
+    <br>
+    <div class="button-container">
+      <!-- Bouton "Effacer tout" apparaît avant "Générer CSV" -->
+      <button type="reset" id="resetButton">Effacer tout</button>
+      <button type="button" id="generateCSV">Générer CSV</button>
+      <br><br>
+      <label for="emailClient">Choisissez votre client de messagerie :</label>
+      <select id="emailClient">
+        <option value="gmail">Gmail</option>
+        <option value="outlook">Outlook</option>
+      </select>
+      <button type="button" id="sendEmail">Envoyer par Courriel</button>
+    </div>
+  </form>
+  
+  <script>
+    // Génération des 10 lignes de saisie
+    function generateRows() {
+      let rowsHtml = "";
+      for (let i = 0; i < 10; i++) {
+        rowsHtml += `<tr>
+  <td><input type="text" name="row${i}_nom"></td>
+  <td><input type="text" name="row${i}_prenom"></td>
+  <td>
+    <select name="row${i}_sexe">
+      <option value=""></option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="X">X</option>
+    </select>
+  </td>
+  <td><input type="text" name="row${i}_annee" placeholder="YYYY"></td>
+  <td>
+    <select name="row${i}_mois">
+      <option value=""></option>
+      <option value="01- Janvier">01- Janvier</option>
+      <option value="02- Février">02- Février</option>
+      <option value="03- Mars">03- Mars</option>
+      <option value="04- Avril">04- Avril</option>
+      <option value="05- Mai">05- Mai</option>
+      <option value="06- Juin">06- Juin</option>
+      <option value="07- Juillet">07- Juillet</option>
+      <option value="08- Août">08- Août</option>
+      <option value="09- Septembre">09- Septembre</option>
+      <option value="10- Octobre">10- Octobre</option>
+      <option value="11- Novembre">11- Novembre</option>
+      <option value="12- Décembre">12- Décembre</option>
+    </select>
+  </td>
+  <td>
+    <select name="row${i}_jour">
+      <option value=""></option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+      <option value="26">26</option>
+      <option value="27">27</option>
+      <option value="28">28</option>
+      <option value="29">29</option>
+      <option value="30">30</option>
+      <option value="31">31</option>
+    </select>
+  </td>
+  <td>
+    <select name="row${i}_emploi">
+      <option value=""></option>
+      <option value="Rémunéré">Rémunéré</option>
+      <option value="Non-Rémunéré">Non-Rémunéré</option>
+    </select>
+  </td>
+  <td><input type="text" name="row${i}_adresse"></td>
+  <td><input type="text" name="row${i}_app"></td>
+  <td><input type="text" name="row${i}_ville"></td>
+  <td><input type="text" name="row${i}_code_postal"></td>
+  <td><input type="text" name="row${i}_numero_permis"></td>
+</tr>`;
+      }
+      return rowsHtml;
+    }
+    
+    // Insère les 10 lignes dans le tbody
+    document.querySelector("tbody").innerHTML = generateRows();
+    
+    let generatedCSVUrl = null;
+    let generatedCSVContent = '';
+    
+    document.getElementById("generateCSV").addEventListener("click", function() {
+      const errorDiv = document.getElementById("error-messages");
+      errorDiv.innerHTML = "";
+      
+      const numRows = 10;
+      const rows = [];
+      let errors = [];
+      const currentYear = new Date().getFullYear();
+      
+      for (let i = 0; i < numRows; i++) {
+        const row = {};
+        row.nom = document.getElementsByName(`row${i}_nom`)[0].value.trim();
+        row.prenom = document.getElementsByName(`row${i}_prenom`)[0].value.trim();
+        row.sexe = document.getElementsByName(`row${i}_sexe`)[0].value.trim();
+        row.annee = document.getElementsByName(`row${i}_annee`)[0].value.trim();
+        row.mois = document.getElementsByName(`row${i}_mois`)[0].value.trim();
+        row.jour = document.getElementsByName(`row${i}_jour`)[0].value.trim();
+        row.emploi = document.getElementsByName(`row${i}_emploi`)[0].value.trim();
+        row.adresse = document.getElementsByName(`row${i}_adresse`)[0].value.trim();
+        row.app = document.getElementsByName(`row${i}_app`)[0].value.trim();
+        row.ville = document.getElementsByName(`row${i}_ville`)[0].value.trim();
+        row.code_postal = document.getElementsByName(`row${i}_code_postal`)[0].value.trim();
+        row.numero_permis = document.getElementsByName(`row${i}_numero_permis`)[0].value.trim();
+        
+        const rowValues = Object.values(row);
+        if (rowValues.every(val => val === "")) continue;
+        
+        if (!row.nom) errors.push(`Champ 'NOM' manquant à la rangée ${i+1}.`);
+        if (!row.prenom) errors.push(`Champ 'PRENOM' manquant à la rangée ${i+1}.`);
+        if (!row.sexe) errors.push(`Champ 'SEXE' manquant à la rangée ${i+1}.`);
+        if (!row.annee || !row.mois || !row.jour) errors.push(`Champ 'DDN' manquant ou incomplet à la rangée ${i+1}.`);
+        if (!row.emploi) errors.push(`Champ 'EMPLOI' manquant à la rangée ${i+1}.`);
+        
+        if (row.annee && !/^\d+$/.test(row.annee)) {
+          errors.push(`L'année de naissance doit être numérique à la rangée ${i+1}.`);
+        } else if (row.annee) {
+          const year = parseInt(row.annee, 10);
+          if (year > (currentYear - 14)) errors.push(`L'année de naissance doit être ≤ ${currentYear - 14} (minimum 14 ans) à la rangée ${i+1}.`);
+          if (year < 1900) errors.push(`L'année de naissance doit être ≥ 1900 à la rangée ${i+1}.`);
+        }
+        
+        let monthNum = null;
+        if (row.mois) {
+          const match = row.mois.match(/^(\d{2})-/);
+          if (!match) {
+            errors.push(`Mois invalide à la rangée ${i+1}.`);
+          } else {
+            monthNum = parseInt(match[1], 10);
+            if (monthNum < 1 || monthNum > 12) errors.push(`Mois invalide à la rangée ${i+1}.`);
+          }
+        }
+        
+        if (row.jour && !/^\d+$/.test(row.jour)) {
+          errors.push(`Le jour de naissance doit être numérique à la rangée ${i+1}.`);
+        } else if (row.jour) {
+          const day = parseInt(row.jour, 10);
+          if (day < 1 || day > 31) errors.push(`Le jour de naissance doit être entre 1 et 31 à la rangée ${i+1}.`);
+        }
+        
+        if (row.annee && monthNum !== null && row.jour) {
+          row.ddn = `${row.annee}-${String(monthNum).padStart(2, '0')}-${row.jour.padStart(2, '0')}`;
+        } else {
+          row.ddn = "";
+        }
+        
+        row.nom = row.nom.toUpperCase();
+        row.prenom = row.prenom.charAt(0).toUpperCase() + row.prenom.slice(1).toLowerCase();
+        
+        if (row.emploi === "Rémunéré") {
+          row.emploi = "Enseignant(e)";
+        } else if (row.emploi === "Non-Rémunéré") {
+          row.emploi = "Bénévole/Stagiaire scolaire";
+        }
+        
+        if (row.code_postal && !/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(row.code_postal)) {
+          errors.push(`Format incorrect de CODE_POSTAL à la rangée ${i+1}.`);
+        }
+        
+        if (row.numero_permis && !/^[A-Za-z]\d{4}-\d{6}-\d{2}$/.test(row.numero_permis)) {
+          alert(`NUMERO_PERMIS invalide à la rangée ${i+1}, le champ sera ignoré.`);
+          row.numero_permis = "";
+        }
+        
+        rows.push(row);
+      }
+      
+      if (errors.length > 0) {
+        errorDiv.innerHTML = errors.join("<br>");
+        return;
+      }
+      
+      if (rows.length === 0) {
+        errorDiv.innerHTML = "Aucune donnée saisie.";
+        return;
+      }
+      
+      const csvHeaders = ["NUMERO_REFERENCE", "NOM", "PRENOM", "SEXE", "DDN", "EMPLOI", "ADRESSE", "APP", "VILLE", "CODE_POSTAL", "NUMERO_PERMIS"];
+      let csvContent = csvHeaders.join(";") + "\n";
+      
+      rows.forEach(row => {
+        const csvRow = [
+          "",
+          row.nom || "",
+          row.prenom || "",
+          row.sexe || "",
+          row.ddn || "",
+          row.emploi || "",
+          row.adresse || "",
+          row.app || "",
+          row.ville || "",
+          row.code_postal || "",
+          row.numero_permis || ""
+        ];
+        csvContent += csvRow.join(";") + "\n";
+      });
+      
+      const bom = "\uFEFF";
+      generatedCSVContent = bom + csvContent;
+      
+      // Génération du nom de fichier incluant la date et l'heure (HH-MM-SS)
+      const today = new Date();
+      const formattedDate = today.getFullYear() + "-" +
+                            ("0" + (today.getMonth() + 1)).slice(-2) + "-" +
+                            ("0" + today.getDate()).slice(-2);
+      const formattedTime = ("0" + today.getHours()).slice(-2) + "-" +
+                            ("0" + today.getMinutes()).slice(-2) + "-" +
+                            ("0" + today.getSeconds()).slice(-2);
+      
+      const schoolName = "738-CSS Harricana";
+      const csvFilename = schoolName + " - Habilitation Sécuritaire - " + formattedDate + " " + formattedTime + ".csv";
+      
+      const blob = new Blob([generatedCSVContent], { type: "text/csv;charset=utf-8;" });
+      generatedCSVUrl = URL.createObjectURL(blob);
+      
+      const link = document.createElement("a");
+      link.href = generatedCSVUrl;
+      link.download = csvFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      alert("CSV généré et téléchargé. N'oubliez pas de joindre le fichier CSV manuellement.");
+    });
+    
+    document.getElementById("resetButton").addEventListener("click", function() {
+      document.getElementById("error-messages").innerHTML = "";
+    });
+    
+    document.getElementById("sendEmail").addEventListener("click", function() {
+      const emailClient = document.getElementById("emailClient").value;
+      const toEmail = "DivHabilitationsecuritaire@surete.qc.ca"; 
+      
+      const today = new Date();
+      const formattedDate = today.getFullYear() + "-" +
+                            ("0" + (today.getMonth() + 1)).slice(-2) + "-" +
+                            ("0" + today.getDate()).slice(-2);
+      const subject = encodeURIComponent("738-CSS Harricana - Habilitation Sécuritaire - " + formattedDate);
+      
+      const body = encodeURIComponent(
+        "Bonjour,\n\n" +
+        "Veuillez trouver ci-joint le fichier CSV généré, destiné à procéder à l'habilitation sécuritaire des personnes mentionnées dans le fichier.\n\n" +
+        "Merci,"
+      );
+      
+      if (emailClient === "gmail") {
+        window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" + toEmail + "&su=" + subject + "&body=" + body, '_blank');
+      } else if (emailClient === "outlook") {
+        window.location.href = "mailto:" + toEmail + "?subject=" + subject + "&body=" + body;
+      }
+    });
+    
+    // Bouton Guide : ouvre une nouvelle fenêtre avec le guide d'utilisation
+    document.getElementById("guideButton").addEventListener("click", function() {
+      const guideWindow = window.open("", "_blank", "width=800,height=600,scrollbars=yes");
+      guideWindow.document.write(`<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Guide d'utilisation - 738-CSS Harricana</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+    .guide-header { display: flex; align-items: center; }
+    .guide-header img { max-height: 60px; width: auto; margin-right: 10px; }
+    h1 { font-size: 28px; color: #333; margin: 0; }
+    h2 { font-size: 22px; color: #444; }
+    p { font-size: 14px; color: #333; }
+    ul { margin-left: 20px; }
+  </style>
+</head>
+<body>
+  <div class="guide-header">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn8j7-SXb8p7I8_p3zcqPpfI2plrpABlD4eGw73IYdUsjfdx4dsN2VrXGv4oc6ZTgtcyQ&usqp=CAU" alt="Logo">
+    <h1>Guide d'utilisation pour 738-CSS Harricana</h1>
+  </div>
+  <h2>1. Installation</h2>
+  <p>Téléchargez le fichier HTML et enregistrez-le sur votre ordinateur. Double-cliquez sur le fichier pour l'ouvrir dans votre navigateur web.</p>
+  <h2>2. Utilisation du formulaire</h2>
+  <p>Le formulaire comporte 10 lignes de saisie. Remplissez les champs obligatoires (NOM, PRENOM, SEXE, DDN et EMPLOI) pour chaque ligne à traiter.</p>
+  <h2>3. Génération du CSV</h2>
+  <p>Cliquez sur le bouton <strong>"Générer CSV"</strong>. Le fichier CSV sera automatiquement téléchargé. Son nom contient <strong>738-CSS Harricana</strong>, "Habilitation Sécuritaire", la date et l'heure (format YYYY-MM-DD HH-MM-SS).</p>
+  <h2>4. Envoi par courriel</h2>
+  <p>Sélectionnez votre client de messagerie (Gmail ou Outlook) dans le menu déroulant et cliquez sur le bouton <strong>"Envoyer par Courriel"</strong>. Une nouvelle fenêtre de composition s'ouvrira avec un sujet pré-rempli. Veuillez joindre manuellement le CSV généré avant d'envoyer le courriel.</p>
+  <h2>5. Remarques</h2>
+  <p>Avant de générer le CSV, vérifiez que toutes les données sont correctement saisies. En cas d'erreur, un message s'affichera en haut de la page.</p>
+  <p>Pour toute question, veuillez contacter votre support technique.</p>
+  <p>Merci,</p>
+  <p><strong><italic>Sûreté du Québec, Division de l’habilitation sécuritaire</strong></italic></p>
+</body>
+</html>`);
+      guideWindow.document.close();
+    });
+  </script>
+</body>
+</html>
